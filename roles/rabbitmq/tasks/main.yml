@@ -1,0 +1,10 @@
+
+---
+
+- include: rabbitmq.yml
+
+# this is will be used when installing on master 
+- include: rabbitmq-master.yml
+
+#this is will be used when installing on slave
+- include: rabbitmq-slave.yml

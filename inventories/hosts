@@ -1,0 +1,6 @@
+[rabbitmq:vars]
+ansible_ssh_private_key_file=/Users/rohangupta/.ssh/dev.pem
+
+[rabbitmq]
+rabbitmq-0 ansible_ssh_host=172.34.46.137 ansible_ssh_user=ubuntu
+rabbitmq-1 ansible_ssh_host=172.34.50.217 ansible_ssh_user=ubuntu

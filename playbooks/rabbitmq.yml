@@ -1,0 +1,6 @@
+- hosts: rabbitmq
+  roles:
+    - { role: roles/rabbitmq, tags: ["rabbitmq"] }
+  #  - { role: roles/syslog, tags: ["syslog"] }
+  #    - { role: zabbix_user_parameter, tags: ["redis_zabbix"]}
+  become: True

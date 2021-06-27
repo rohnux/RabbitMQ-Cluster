@@ -1,0 +1,46 @@
+---
+  - name: Create virtual hosts For master
+    rabbitmq_vhost:
+      name: "{{ item.vhost }}"
+      tracing: no
+      state: present
+    with_items: "{{rabbitmq_vhosts}}"
+    when: rabbitmq_vhosts is defined
+
+  - name: Add RabbitMQ Admin user
+    rabbitmq_user:
+      user: "{{item.user}}"
+      password: "{{item.passwd}}"
+      tags: administrator
+      vhost: "{{ item.vhost }}"
+      configure_priv: .*
+      read_priv: .*
+      write_priv: .*
+      state: present
+    with_items: "{{rabbitmq_root_user}}"
+
+  - name: Create User For dev
+    rabbitmq_user:
+     user: "{{ item.user }}"
+     password: "{{ item.passwd }}"
+     vhost: "{{ item.vhost }}"
+     configure_priv: .*
+     tags: "{{ item.tags }}"
+     read_priv: .*
+     write_priv: .*
+     state: present
+    with_items: "{{rabbitmq_vhosts_users}}"
+
+  - name: Create HA set_policy
+    rabbitmq_policy:
+        name: "{{ item.name }}"
+        pattern: .*
+        apply_to: all
+        state: present
+        vhost: "{{ item.vhost }}"
+    args:
+      tags:
+        ha-mode: all
+        ha-sync-mode: automatic
+    with_items: "{{rabbitmq_vhosts}}"
+    when: rabbitmq_vhosts is defined
